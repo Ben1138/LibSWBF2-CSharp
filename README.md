@@ -8,5 +8,14 @@ So far just reading/writing MSH Files is supported.
 3. Grab the information you want or modify the Mesh as you please
 4. Save MSH File ```msh.WriteToFile("C:\\myModifiedMesh.msh");```
 
-NDXL and NDXT Chunks are not supported. Polygon strips will be written into STRP Chunk
+What's supported:
+- Selection Information (Animation Begin/End, Framerate)
+- Camera Information (Last Camera used by the modeller)
+- Materials (add, delete, modify)
+- Models (add, delete, modify, recognition for collision and terraincut)
+- Mesh Segments (apply different Materials to different Segments)
+- Vertices (add, delete, modify Position, Normal, UV)
+- Polygons (add, delete, modify)
+
+NDXL and NDXT Chunks are not supported. Polygon strips will be written into STRP Chunk<br />
 (Zero Editor might not be able to open the mesh)
