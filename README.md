@@ -1,5 +1,5 @@
 # LibSWBF2
-C# Library for reading files from Star Wars Battlefront 2 (2005) Mod Tools
+C# Library for reading files from Star Wars Battlefront 2 (2005) Mod Tools.<br />
 So far just reading/writing MSH Files is supported.
 
 # MSH Files
