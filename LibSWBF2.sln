@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSWBF2", "LibSWBF2\LibSWBF2.csproj", "{EB1B6CDB-7671-4300-8B04-F2C6865FD79B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB1B6CDB-7671-4300-8B04-F2C6865FD79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1B6CDB-7671-4300-8B04-F2C6865FD79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1B6CDB-7671-4300-8B04-F2C6865FD79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1B6CDB-7671-4300-8B04-F2C6865FD79B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2D8E158A-9CF2-4EE5-84C5-91BB14B394AF}
+	EndGlobalSection
+EndGlobal

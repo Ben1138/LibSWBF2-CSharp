@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EB1B6CDB-7671-4300-8B04-F2C6865FD79B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LibSWBF2</RootNamespace>
+    <AssemblyName>LibSWBF2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\EndOfDataException.cs" />
+    <Compile Include="Exceptions\InsufficientPermissionsException.cs" />
+    <Compile Include="Exceptions\InvalidChunkException.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Math.cs" />
+    <Compile Include="MSH\Chunks\BaseChunk.cs" />
+    <Compile Include="MSH\Chunks\BBOX.cs" />
+    <Compile Include="MSH\Chunks\CAMR.cs" />
+    <Compile Include="MSH\Chunks\FRAM.cs" />
+    <Compile Include="MSH\Chunks\GEOM.cs" />
+    <Compile Include="MSH\Chunks\HEDR.cs" />
+    <Compile Include="MSH\Chunks\MATD.cs" />
+    <Compile Include="MSH\Chunks\MATL.cs" />
+    <Compile Include="MSH\Chunks\MODL.cs" />
+    <Compile Include="MSH\Chunks\MSH2.cs" />
+    <Compile Include="MSH\Chunks\SEGM.cs" />
+    <Compile Include="MSH\Chunks\SINF.cs" />
+    <Compile Include="MSH\Chunks\STRP.cs" />
+    <Compile Include="MSH\Types\CheckResult.cs" />
+    <Compile Include="MSH\Types\ChunkStream.cs" />
+    <Compile Include="MSH\Types\Polygon.cs" />
+    <Compile Include="MSH\Types\Vertex.cs" />
+    <Compile Include="MSH\MSH.cs" />
+    <Compile Include="MSH\Types\VertexIndex.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeConverters\BaseConverter.cs" />
+    <Compile Include="TypeConverters\ColorConverter.cs" />
+    <Compile Include="TypeConverters\FlagConverter.cs" />
+    <Compile Include="TypeConverters\MATDConverter.cs" />
+    <Compile Include="TypeConverters\MODLConverter.cs" />
+    <Compile Include="TypeConverters\Vector2Converter.cs" />
+    <Compile Include="TypeConverters\Vector3Converter.cs" />
+    <Compile Include="TypeConverters\Vector4Converter.cs" />
+    <Compile Include="Types\Vector2.cs" />
+    <Compile Include="Types\Vector3.cs" />
+    <Compile Include="Types\Vector4.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
