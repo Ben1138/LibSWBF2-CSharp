@@ -12,7 +12,7 @@ namespace LibSWBF2.TypeConverters {
                 float[] fields = Array.ConvertAll(val.Split(new char[] { '-' }), float.Parse);
 
                 try {
-                    return Extensions.ColorFromNormalized(fields[0], fields[1], fields[2], fields[3]);
+                    return new Color(fields[0], fields[1], fields[2], fields[3]);
                 }
                 catch {
                     throw new InvalidCastException(
