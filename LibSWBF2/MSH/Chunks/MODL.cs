@@ -18,7 +18,7 @@ namespace LibSWBF2.MSH.Chunks {
     }
 
     public enum ModelTag {
-        Common, Collision, TerrainCut
+        Common, Collision, TerrainCut, Lowrez
     }
 
     /// <summary>
@@ -69,12 +69,16 @@ namespace LibSWBF2.MSH.Chunks {
         /// </summary>
         public ModelTag Tag {
             get {
-                if (Name.Contains("collision") || Name.Contains("Collision") || Name.Contains("COLLISION")) {
+                if (Name.ToLower().Contains("collision")) {
                     return ModelTag.Collision;
                 }
 
-                if (Name.Contains("terraincutter") || Name.Contains("TerrainCutter") || Name.Contains("TERRAINCUTTER")) {
+                if (Name.ToLower().Contains("terraincutter")) {
                     return ModelTag.TerrainCut;
+                }
+
+                if (Name.ToLower().Contains("lowrez")) {
+                    return ModelTag.Lowrez;
                 }
 
                 return ModelTag.Common;
