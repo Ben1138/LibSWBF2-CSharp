@@ -1,6 +1,6 @@
-﻿using System.Drawing;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
+using LibSWBF2.Types;
 using LibSWBF2.TypeConverters;
 using LibSWBF2.MSH.Types;
 

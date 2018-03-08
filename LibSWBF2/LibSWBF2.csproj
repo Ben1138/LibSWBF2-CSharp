@@ -79,6 +79,7 @@
     <Compile Include="TypeConverters\Vector2Converter.cs" />
     <Compile Include="TypeConverters\Vector3Converter.cs" />
     <Compile Include="TypeConverters\Vector4Converter.cs" />
+    <Compile Include="Types\Color.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector3.cs" />
     <Compile Include="Types\Vector4.cs" />

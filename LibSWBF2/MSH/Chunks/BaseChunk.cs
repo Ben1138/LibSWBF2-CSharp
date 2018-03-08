@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
@@ -292,7 +291,7 @@ namespace LibSWBF2.MSH.Chunks {
         /// </summary>
         /// <returns></returns>
         public Color ReadColor() {
-            return Extensions.ColorFromNormalized(
+            return new Color(
                 ReadFloat(),
                 ReadFloat(),
                 ReadFloat(),
@@ -410,12 +409,10 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         public void WriteColor(Color color) {
-            Extensions.ColorToNormalized(color, out float r, out float g, out float b, out float a);
-
-            WriteFloat(r);
-            WriteFloat(g);
-            WriteFloat(b);
-            WriteFloat(a);
+            WriteFloat(color.R);
+            WriteFloat(color.G);
+            WriteFloat(color.B);
+            WriteFloat(color.A);
         }
 
         public void WriteVertexIndex(VertexIndex vertexIndex) {
