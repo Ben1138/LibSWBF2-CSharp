@@ -3,6 +3,7 @@ using System.Security;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
+using LibSWBF2.Types;
 using LibSWBF2.MSH.Chunks;
 using LibSWBF2.MSH.Types;
 using LibSWBF2.Exceptions;
