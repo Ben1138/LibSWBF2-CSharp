@@ -24,9 +24,23 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
-        /// Reads the u int16.
+        /// Reads a Int16
         /// </summary>
-        /// <returns></returns>
+        /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
+        public ushort ReadInt16() {
+            if (Position + 2 >= Length) {
+                throw new EndOfDataException("Unexpected end of stream!");
+            }
+
+            byte[] buffer = new byte[2];
+            Read(buffer, 0, 2);
+
+            return BitConverter.ToUInt16(buffer, 0);
+        }
+
+        /// <summary>
+        /// Reads an unsigned Int16
+        /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public ushort ReadUInt16() {
             if (Position + 2 >= Length) {
@@ -40,9 +54,8 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
-        /// Reads the int32.
+        /// Reads a Int32
         /// </summary>
-        /// <returns></returns>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public int ReadInt32() {
             if (Position + 4 >= Length)
@@ -55,9 +68,22 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
-        /// Reads the float.
+        /// Reads a Int64
         /// </summary>
-        /// <returns></returns>
+        /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
+        public long ReadInt64() {
+            if (Position + 8 >= Length)
+                throw new EndOfDataException("Unexpected end of stream!");
+
+            byte[] buffer = new byte[8];
+            Read(buffer, 0, 8);
+
+            return BitConverter.ToInt64(buffer, 0);
+        }
+
+        /// <summary>
+        /// Reads a float
+        /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public float ReadFloat() {
             if (Position + 4 >= Length)
@@ -70,10 +96,9 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
-        /// Reads the string.
+        /// Reads a string.
         /// </summary>
         /// <param name="length">The length.</param>
-        /// <returns></returns>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         /// <exception cref="LibSWBF2.Exceptions.InvalidChunkException">could not read string!</exception>
         public string ReadString(int length) {
@@ -95,50 +120,5 @@ namespace LibSWBF2.Types {
 
             return new string(chars);
         }
-
-        /// <summary>
-        /// Trys to read the Chunk length of the expected Chunk Name
-        /// </summary>
-        /// <param name="expectedChunkName">The Name of the Chunk to be expected coming next</param>
-        /// <param name="throwException">Should we throw an Exception if our expectations are not met?</param>
-        /// <returns></returns>
-        /*public ReadChunkResult ReadChunk() {
-            if (Position + 4 >= Length)
-                throw new EndOfStreamException("Unexpected end of stream!");
-
-            byte[] buffer = new byte[4];
-            Read(buffer, 0, 4);
-
-            Encoding encoding = Encoding.ASCII;
-            char[] chars = encoding.GetChars(buffer, 0, 4);
-
-            string name = new string(chars);
-            int length = ReadInt32();
-
-            bool validChunkName = Regex.Match(name, "[A-Z0-9]{4}").Success;             
-
-            return new ReadChunkResult(length, name, validChunkName);
-        }
-
-        public BaseChunk ReadChunk() {
-            if (Position + 4 >= Length)
-                throw new EndOfStreamException("Unexpected end of stream!");
-
-            BaseChunk chunk = new BaseChunk();
-            chunk.FromData(this);
-
-            return chunk;
-        }*/
-
-        /// <summary>
-        /// Skip the given amount of bytes
-        /// </summary>
-        /// <param name="amount">The amount to skip</param>
-        /*public void SkipForward(int amount) {
-            if (amount < 1)
-                throw new ArgumentOutOfRangeException("Cannot skip " + amount + " bytes!");
-            else
-                Seek(amount, SeekOrigin.Current);
-        }*/
     }
 }
