@@ -8,7 +8,7 @@ C# Library for reading files from Star Wars Battlefront 2 (2005) Mod Tools.<br /
 4. Save MSH File ```msh.WriteToFile("C:\\myModifiedMesh.msh");```
 
 What's supported:
-- Selection Information (Animation Begin/Eynd, Framerate)
+- Selection Information (Animation Begin/End, Framerate)
 - Camera Information (Last Camera used by the modeller)
 - Materials (add, delete, modify)
 - Models (add, delete, modify, recognition for collision and terraincut)
