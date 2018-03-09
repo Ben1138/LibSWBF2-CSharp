@@ -27,7 +27,7 @@ namespace LibSWBF2.Types {
         /// Reads a Int16
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
-        public ushort ReadInt16() {
+        public short ReadInt16() {
             if (Position + 2 >= Length) {
                 throw new EndOfDataException("Unexpected end of stream!");
             }
@@ -35,7 +35,7 @@ namespace LibSWBF2.Types {
             byte[] buffer = new byte[2];
             Read(buffer, 0, 2);
 
-            return BitConverter.ToUInt16(buffer, 0);
+            return BitConverter.ToInt16(buffer, 0);
         }
 
         /// <summary>
