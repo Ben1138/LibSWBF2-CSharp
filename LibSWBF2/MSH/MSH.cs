@@ -70,7 +70,7 @@ namespace LibSWBF2.MSH {
 
 
         /// <summary>
-        /// List of Materials
+        /// Loads Mesh from File
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns></returns>
@@ -83,11 +83,10 @@ namespace LibSWBF2.MSH {
             MSH msh = new MSH();
 
             Log.Add("Open File " + path, LogType.Info);
-            ChunkStream stream;
+            ChunkStream stream = null;
             
             try {
                 stream = new ChunkStream(path, FileMode.Open, FileAccess.Read);
-
                 msh.header = new HEDR(BaseChunk.FromData(stream, msh));
 
                 Log.Add("Flushing raw Data", LogType.Info);
@@ -112,6 +111,10 @@ namespace LibSWBF2.MSH {
             catch (SecurityException ex) {
                 Log.Add("Insufficient Permissions!", LogType.Error);
                 throw new InsufficientPermissionsException("Insufficient Permissions!", ex);
+            }
+            finally {
+                if (stream != null)
+                    stream.Close();
             }
 
             //Apply Parent Reference AFTER we loaded all Models

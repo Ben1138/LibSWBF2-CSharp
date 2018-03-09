@@ -50,7 +50,8 @@ namespace LibSWBF2.WLD {
                 throw new InsufficientPermissionsException("Insufficient Permissions!", ex);
             }
             finally {
-                reader.Close();
+                if (reader != null)
+                    reader.Close();
             }
 
             WLD wld = new WLD();
