@@ -24,6 +24,33 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
+        /// Skips the given amount of bytes
+        /// </summary>
+        /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
+        public void SkipBytes(int bytesToSkip) {
+            if (Position + bytesToSkip >= Length) {
+                throw new EndOfDataException("Unexpected end of stream!");
+            }
+
+            Position += bytesToSkip;
+        }
+
+        /// <summary>
+        /// Reads a Int16
+        /// </summary>
+        /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
+        public new byte ReadByte() {
+            if (Position + 1 >= Length) {
+                throw new EndOfDataException("Unexpected end of stream!");
+            }
+
+            byte[] buffer = new byte[1];
+            Read(buffer, 0, 1);
+
+            return buffer[0];
+        }
+
+        /// <summary>
         /// Reads a Int16
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
