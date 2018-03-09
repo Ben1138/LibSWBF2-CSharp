@@ -1,15 +1,14 @@
 # LibSWBF2
 C# Library for reading files from Star Wars Battlefront 2 (2005) Mod Tools.<br />
-So far just reading/writing MSH Files is supported.
 
 # MSH Files
-1. Add using directive ```using LibSWBF2.MSH;``` 
-2. Create a new instance ```MSH msh = MSH.LoadFromFile("C:\\myMesh.msh");``` 
+1. Add using directive ```using LibSWBF2.MSH;```
+2. Create a new instance ```MSH msh = MSH.LoadFromFile("C:\\myMesh.msh");```
 3. Grab the information you want or modify the Mesh as you please
 4. Save MSH File ```msh.WriteToFile("C:\\myModifiedMesh.msh");```
 
 What's supported:
-- Selection Information (Animation Begin/End, Framerate)
+- Selection Information (Animation Begin/Eynd, Framerate)
 - Camera Information (Last Camera used by the modeller)
 - Materials (add, delete, modify)
 - Models (add, delete, modify, recognition for collision and terraincut)
@@ -19,3 +18,11 @@ What's supported:
 
 NDXL and NDXT Chunks are not supported. Polygon strips will be written into STRP Chunk<br />
 (Zero Editor might not be able to open the mesh)
+
+# WLD and LYR Files
+1. Add using directive ```using LibSWBF2.WLD;```
+2. Create a new instance ```Wld world = WLD.LoadFromFile("C:\\world1.wld");```
+3. Grab the information you want
+
+What's supported:
+- Reading List of Objects with Position and Rotation respectively
