@@ -19,10 +19,12 @@ What's supported:
 NDXL and NDXT Chunks are not supported. Polygon strips will be written into STRP Chunk<br />
 (Zero Editor might not be able to open the mesh)
 
-# WLD and LYR Files
+# Loading Worlds
 1. Add using directive ```using LibSWBF2.WLD;```
 2. Create a new instance ```Wld world = WLD.LoadFromFile("C:\\world1.wld");```
 3. Grab the information you want
 
 What's supported:
-- Reading List of Objects with Position and Rotation respectively
+- World Layers (Auto recognition and reading)
+- Object Placement Information (Name, Mesh File, Position and Rotation)
+- Terrain (Height data)
