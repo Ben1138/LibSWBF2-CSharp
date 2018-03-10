@@ -83,6 +83,11 @@
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector3.cs" />
     <Compile Include="Types\Vector4.cs" />
+    <Compile Include="WLD\LYR.cs" />
+    <Compile Include="WLD\TER.cs" />
+    <Compile Include="WLD\Types\TerrainExtent.cs" />
+    <Compile Include="WLD\Types\TerrainLayer.cs" />
+    <Compile Include="WLD\Types\TerrainVersion.cs" />
     <Compile Include="WLD\Types\WorldObject.cs" />
     <Compile Include="WLD\WLD.cs" />
   </ItemGroup>

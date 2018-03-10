@@ -11,8 +11,10 @@ using LibSWBF2.WLD.Types;
 
 namespace LibSWBF2.WLD {
     public class WLD {
-
-        public List<WorldObject> WorldObjects { get; private set; } = new List<WorldObject>();
+        public string LightFile = "";
+        public TER Terrain { get; private set; } = null;
+        public string SkyFile = "";
+        public List<LYR> Layers { get; private set; } = new List<LYR>();
 
 
         /// <summary>
@@ -26,6 +28,8 @@ namespace LibSWBF2.WLD {
         /// <exception cref="InsufficientPermissionsException">Insufficient Permissions</exception>
         /// <exception cref="IOException">Read / Write Error</exception>
         public static WLD LoadFromFile(string path) {
+            FileInfo fileInfo = new FileInfo(path);
+
             StreamReader reader = null;
             string fileContent = "";
 
@@ -56,46 +60,36 @@ namespace LibSWBF2.WLD {
 
             WLD wld = new WLD();
 
-            //Regex for one Object Block
-            Regex objectEntry = new Regex(
-                // Object("objectName", "mshName", 666)
-                @"Object\([""]([A-Za-z0-9_-]+)[""],\s*[""]([A-Za-z0-9_-]+)[""],\s*-?[0-9]+\)" +
-                // {
-                @"\s*\{" +
-                // ChildRotation(-1.000, 0.000, 1.000, 666.666);
-                @"\s*ChildRotation\((-?[0-9]+\.[0-9]+),\s*(-?[0-9]+\.[0-9]+),\s*(-?[0-9]+\.[0-9]+),\s*(-?[0-9]+\.[0-9]+)\);" +
-                // ChildPosition(-1.000, 1.200, 666.666);
-                @"\s*ChildPosition\((-?[0-9]+\.[0-9]+),\s*(-?[0-9]+\.[0-9]+),\s*(-?[0-9]+\.[0-9]+)\);"
 
-                //interpret whole string as a single line (thus allowing matching across more than one line)
-                , RegexOptions.Singleline);
+            Match m = Regex.Match(fileContent, @"LightName\([""]([A-Za-z0-9_-]+\.[A-Za-z]+)[""]\)");
+            if (m.Success && m.Groups.Count >= 2) {
+                wld.LightFile = m.Groups[1].Value;
+            }
 
-            MatchCollection matches = objectEntry.Matches(fileContent);
+            m = Regex.Match(fileContent, @"TerrainName\([""]([A-Za-z0-9_-]+\.[A-Za-z]+)[""]\)");
+            if (m.Success && m.Groups.Count >= 2) {
+                string terrainPath = fileInfo.DirectoryName + "\\" + m.Groups[1].Value;
 
-            foreach (Match match in matches) {
-                if (match.Groups.Count == 10) {
-                    WorldObject wldobj = new WorldObject();
-                    wldobj.name = match.Groups[1].Value;
-                    wldobj.meshName = match.Groups[2].Value;
-
-                    wldobj.rotation = new Vector4(
-                        Convert.ToSingle(match.Groups[3].Value, CultureInfo.InvariantCulture.NumberFormat),
-                        Convert.ToSingle(match.Groups[4].Value, CultureInfo.InvariantCulture.NumberFormat),
-                        Convert.ToSingle(match.Groups[5].Value, CultureInfo.InvariantCulture.NumberFormat),
-                        Convert.ToSingle(match.Groups[6].Value, CultureInfo.InvariantCulture.NumberFormat)
-                    );
-
-                    wldobj.position = new Vector3(
-                        Convert.ToSingle(match.Groups[7].Value, CultureInfo.InvariantCulture.NumberFormat),
-                        Convert.ToSingle(match.Groups[8].Value, CultureInfo.InvariantCulture.NumberFormat),
-                        Convert.ToSingle(match.Groups[9].Value, CultureInfo.InvariantCulture.NumberFormat)
-                    );
-
-                    wld.WorldObjects.Add(wldobj);
+                if (File.Exists(terrainPath)) {
+                    wld.Terrain = TER.LoadFromFile(terrainPath);
                 }
-                else {
-                    Log.Add("Number of found matches does not match! should be 10, is " + match.Groups.Count, LogType.Error);
-                }
+            }
+
+            m = Regex.Match(fileContent, @"SkyName\([""]([A-Za-z0-9_-]+\.[A-Za-z]+)[""]\)");
+            if (m.Success && m.Groups.Count >= 2) {
+                wld.SkyFile = m.Groups[1].Value;
+            }
+
+            //Load [Base] Layer
+            LYR Base = LYR.LoadFromString(fileContent);
+            Base.Name = "[Base]";
+            wld.Layers.Add(Base);
+
+            string[] layerFiles = Directory.GetFiles(fileInfo.DirectoryName, "*.lyr", SearchOption.AllDirectories);
+
+            //load all additional layers
+            foreach (string file in layerFiles) {
+                wld.Layers.Add(LYR.LoadFromFile(file));
             }
 
             return wld;
