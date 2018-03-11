@@ -46,5 +46,9 @@ namespace LibSWBF2.Types {
             B = b;
             A = a;
         }
+
+        public override string ToString() {
+            return R + "-" + G + "-" + B + "-" + A;
+        }
     }
 }
