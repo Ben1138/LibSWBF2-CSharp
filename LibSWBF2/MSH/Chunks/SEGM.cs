@@ -177,10 +177,18 @@ namespace LibSWBF2.MSH.Chunks {
             WriteChunkLength();
         }
 
-        public void ApplyReferences(MATD[] materials) {
+        /// <summary>
+        /// Since in MSH References are saved by name (string) or list index (int32), we have to assign all necessary references manually.
+        /// This should be overriden by any subclass which holds references to other Chunks (e.g. to every Segment one Material is assigned)
+        /// </summary>
+        /// <exception cref="NullReferenceException">No owner (MSH) set in Chunk " + ChunkName + "!</exception>
+        public override void ApplyReferences() {
+            if (Owner == null)
+                throw new NullReferenceException("No owner (MSH) set in Chunk " + ChunkName + "!");
+
             //Apply Material from material index
-            if (matIndex >= 0 && matIndex < materials.Length) {
-                Material = materials[matIndex];
+            if (matIndex >= 0 && matIndex < Owner.Materials.Count) {
+                Material = Owner.Materials[matIndex];
             }
         }
 

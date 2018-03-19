@@ -76,6 +76,10 @@ namespace LibSWBF2.MSH.Chunks {
                 throw new IndexOutOfRangeException("The given index is out of bounds!");
 
             segments.RemoveAt(index);
+        public override void ApplyReferences() {
+            foreach (SEGM segment in Segments) {
+                segment.ApplyReferences();
+            }
         }
 
         /// <summary>

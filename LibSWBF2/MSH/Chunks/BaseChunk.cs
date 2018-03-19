@@ -152,6 +152,12 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
+        /// Since in MSH References are saved by name (string) or list index (int32), we have to assign all necessary references manually.
+        /// This should be overriden by any subclass which holds references to other Chunks (e.g. to every Segment one Material is assigned)
+        /// </summary>
+        public virtual void ApplyReferences() { }
+
+        /// <summary>
         /// Resets the position.
         /// </summary>
         public void ResetPosition() {
