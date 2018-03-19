@@ -1,7 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using LibSWBF2.MSH.Types;
 
 namespace LibSWBF2.MSH.Chunks {
     /// <summary>

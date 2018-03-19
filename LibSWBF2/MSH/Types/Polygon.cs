@@ -22,8 +22,6 @@ namespace LibSWBF2.MSH.Types {
         [Browsable(false)]
         public List<short> VertexIndices { get; private set; } = new List<short>();
 
-        private List<Vertex> verticesRef;
-
 
         public Polygon(List<Vertex> vertices) {
             verticesRef = vertices;

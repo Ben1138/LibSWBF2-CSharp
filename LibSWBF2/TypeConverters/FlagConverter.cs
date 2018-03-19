@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using LibSWBF2.MSH.Chunks;
 
 namespace LibSWBF2.TypeConverters {
     class FlagConverter : BaseConverter {

@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LibSWBF2 {
     public enum LogType {

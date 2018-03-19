@@ -2,7 +2,6 @@
 using System.Security;
 using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
 using LibSWBF2.Types;
 using LibSWBF2.MSH.Chunks;
 using LibSWBF2.MSH.Types;
@@ -17,19 +16,15 @@ namespace LibSWBF2.MSH {
         /// <para>Selection Information for the Zero Editor.</para>
         /// <para>Returns NULL if no Information is specified!</para>
         /// </summary>
-        [Description("Selection Information for the Zero Editor")]
         public SINF SelectionInformation { get { return header.Mesh.SelectionInformation; } }
 
         /// <summary>
         /// <para>Dispensable</para>
         /// <para>Presumably just used to store the last Camera Position used by the modeller.</para>
         /// </summary>
-        [Description("The Name and Position of the Camera last used by the modeller")]
         public CAMR Camera { get { return header.Mesh.Camera; } }
 
-        [Description("List of Materials inside this MSH")]
         public List<MATD> Materials { get { return header.Mesh.MaterialList.Materials; } }
-        [Description("List of Models inside this MSH")]
         public List<MODL> Models { get { return header.Mesh.Models; } }
 
         public CheckResult CheckIntegrity() {
@@ -120,7 +115,6 @@ namespace LibSWBF2.MSH {
             //Apply Parent Reference AFTER we loaded all Models
             Log.Add("Apply References", LogType.Info);
             foreach (MODL mdl in msh.Models) {
-                mdl.ApplyReferences(msh.Models.ToArray(), msh.Materials.ToArray());
             }
 
             Log.Add("DONE!", LogType.Info);

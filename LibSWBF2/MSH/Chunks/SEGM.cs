@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using LibSWBF2;
 using LibSWBF2.Types;
 using LibSWBF2.MSH.Types;
 

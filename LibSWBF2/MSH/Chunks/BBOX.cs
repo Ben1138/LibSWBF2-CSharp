@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-using LibSWBF2.Types;
 using LibSWBF2.MSH.Types;
 
 namespace LibSWBF2.MSH.Chunks {

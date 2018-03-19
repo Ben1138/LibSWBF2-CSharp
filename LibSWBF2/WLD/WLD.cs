@@ -4,10 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Security;
-using System.Globalization;
-using LibSWBF2.Types;
 using LibSWBF2.Exceptions;
-using LibSWBF2.WLD.Types;
 
 namespace LibSWBF2.WLD {
     public class WLD {

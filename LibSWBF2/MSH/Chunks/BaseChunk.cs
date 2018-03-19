@@ -27,11 +27,6 @@ namespace LibSWBF2.MSH.Chunks {
         private int position = 0;
 
 
-        public BaseChunk() {
-            ChunkName = "";
-            Owner = null;
-        }
-
         public BaseChunk(MSH owner) {
             ChunkName = "";
             Owner = owner;
