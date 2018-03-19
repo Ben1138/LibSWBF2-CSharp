@@ -24,9 +24,21 @@ namespace LibSWBF2.MSH {
         /// </summary>
         public CAMR Camera { get { return header.Mesh.Camera; } }
 
+        /// <summary>
+        /// All Materials this MSH contains
+        /// </summary>
         public List<MATD> Materials { get { return header.Mesh.MaterialList.Materials; } }
+
+        /// <summary>
+        /// All Models this MSH contains
+        /// </summary>
         public List<MODL> Models { get { return header.Mesh.Models; } }
 
+
+        /// <summary>
+        /// Does an integrity check to see if all values are properly set and in a valid range
+        /// </summary>
+        /// <returns>Contains all found errors</returns>
         public CheckResult CheckIntegrity() {
             CheckResult result = new CheckResult();
 
@@ -115,6 +127,7 @@ namespace LibSWBF2.MSH {
             //Apply Parent Reference AFTER we loaded all Models
             Log.Add("Apply References", LogType.Info);
             foreach (MODL mdl in msh.Models) {
+                mdl.ApplyReferences();
             }
 
             Log.Add("DONE!", LogType.Info);

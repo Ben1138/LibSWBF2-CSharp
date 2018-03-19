@@ -8,9 +8,9 @@ namespace LibSWBF2.Types {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChunkStream"/> class.
         /// </summary>
-        /// <param name="path">The path.</param>
-        /// <param name="fileMode">The file mode.</param>
-        /// <param name="fileAccess">The file access.</param>
+        /// <param name="path">Path to the File</param>
+        /// <param name="fileMode">Specify if you want to open or create a File</param>
+        /// <param name="fileAccess">Specifiy if you need read or write access</param>
         /// <exception cref="IOException"></exception>
         public ChunkStream(string path, FileMode fileMode, FileAccess fileAccess) 
             : base(path, fileMode, fileAccess) {
@@ -19,7 +19,7 @@ namespace LibSWBF2.Types {
                 throw new IOException(path + " is not readable!");
             }
             
-            //Set Position to begin
+            //Set Position to begin of file
             Seek(0, SeekOrigin.Begin);
         }
 
@@ -28,21 +28,19 @@ namespace LibSWBF2.Types {
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public void SkipBytes(int bytesToSkip) {
-            if (Position + bytesToSkip >= Length) {
+            if (Position + bytesToSkip >= Length)
                 throw new EndOfDataException("Unexpected end of stream!");
-            }
 
             Position += bytesToSkip;
         }
 
         /// <summary>
-        /// Reads a Int16
+        /// Reads an Int16
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public new byte ReadByte() {
-            if (Position + 1 >= Length) {
+            if (Position + 1 >= Length)
                 throw new EndOfDataException("Unexpected end of stream!");
-            }
 
             byte[] buffer = new byte[1];
             Read(buffer, 0, 1);
@@ -51,13 +49,12 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
-        /// Reads a Int16
+        /// Reads an Int16
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public short ReadInt16() {
-            if (Position + 2 >= Length) {
+            if (Position + 2 >= Length)
                 throw new EndOfDataException("Unexpected end of stream!");
-            }
 
             byte[] buffer = new byte[2];
             Read(buffer, 0, 2);
@@ -70,9 +67,8 @@ namespace LibSWBF2.Types {
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public ushort ReadUInt16() {
-            if (Position + 2 >= Length) {
+            if (Position + 2 >= Length)
                 throw new EndOfDataException("Unexpected end of stream!");
-            }
 
             byte[] buffer = new byte[2];
             Read(buffer, 0, 2);
@@ -81,7 +77,7 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
-        /// Reads a Int32
+        /// Reads an Int32
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public int ReadInt32() {
@@ -95,7 +91,7 @@ namespace LibSWBF2.Types {
         }
 
         /// <summary>
-        /// Reads a Int64
+        /// Reads an Int64
         /// </summary>
         /// <exception cref="LibSWBF2.MSH.Types.EndOfDataException">Unexpected end of stream!</exception>
         public long ReadInt64() {
@@ -138,6 +134,8 @@ namespace LibSWBF2.Types {
             Encoding encoding = Encoding.ASCII;
             char[] chars;
 
+            //since ArgumentNull and OutOfRange Exceptions never occour,
+            //we just catch Decoder Exception
             try {
                 chars = encoding.GetChars(buffer, 0, length);
             }

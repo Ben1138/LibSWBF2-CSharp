@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using LibSWBF2.MSH.Types;
 
 namespace LibSWBF2.TypeConverters {
     class FlagConverter : BaseConverter {

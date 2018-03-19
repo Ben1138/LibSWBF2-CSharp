@@ -4,13 +4,24 @@ using System.Text;
 
 namespace LibSWBF2.MSH.Chunks {
     public class MATL : BaseChunk {
+        /// <summary>
+        /// Represents a List of all Materials
+        /// </summary>
         public List<MATD> Materials { get; set; }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MATL"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public MATL(MSH owner) : base(owner) {
             ChunkName = "MATL";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MATL"/> class.
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public MATL(BaseChunk from) : base(from) {
             Materials = new List<MATD>();
 
@@ -32,6 +43,10 @@ namespace LibSWBF2.MSH.Chunks {
             }
         }
 
+        /// <summary>
+        /// Writes the complete data stream new from scratch.
+        /// Every Chunk inheriting from this must override this function
+        /// </summary>
         public override void WriteData() {
             base.WriteData();
 

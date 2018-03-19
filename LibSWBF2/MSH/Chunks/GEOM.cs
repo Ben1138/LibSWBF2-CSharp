@@ -13,16 +13,24 @@ namespace LibSWBF2.MSH.Chunks {
         public BBOX BoundingBox { get; set; }
 
         /// <summary>
-        /// <para>Geometry Segments contain all the necessary information like Vertices, Normals and UVs.</para>
-        /// <para>Usually a Geometry just has one Segment</para>
+        /// <para>A Geometry is made of multiple Segments. Exactly one Material is assigned to each Segment</para>
+        /// <para>A Geometry contains at least one Segment</para>
         /// </summary>
         public List<SEGM> Segments { get; private set; } = new List<SEGM>();
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GEOM"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public GEOM(MSH owner) : base(owner) {
             ChunkName = "GEOM";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GEOM"/> class.
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public GEOM(BaseChunk from) : base(from) {
             while (!EndOfData) {
                 BaseChunk nextChunk = ReadChunk();

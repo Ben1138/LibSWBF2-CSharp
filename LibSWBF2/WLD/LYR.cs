@@ -11,15 +11,22 @@ using LibSWBF2.WLD.Types;
 
 namespace LibSWBF2.WLD {
     public class LYR {
+        /// <summary>
+        /// Name of this Layer
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// List of Objects this Layer contains
+        /// </summary>
         public List<WorldObject> WorldObjects { get; private set; } = new List<WorldObject>();
 
 
         /// <summary>
         /// Loads a .lyr File
         /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns></returns>
+        /// <param name="path">The path to the .lyr File</param>
+        /// <returns>A new LYR Instance</returns>
         /// <exception cref="ArgumentException">Path given is not valid</exception>
         /// <exception cref="EndOfDataException">Unexpected end of Data</exception>
         /// <exception cref="FileNotFoundException">File could not be found</exception>
@@ -59,10 +66,17 @@ namespace LibSWBF2.WLD {
             return lyr;
         }
 
+        /// <summary>
+        /// Creates a new LYR instance from given string content. 
+        /// </summary>
+        /// <param name="content">The string to grab the information from</param>
+        /// <returns>A new LYR Instance</returns>
         public static LYR LoadFromString(string content) {
             Log.Add(content, LogType.Info);
 
-            LYR lyr = new LYR();
+            LYR lyr = new LYR {
+                Name = "New Layer"
+            };
 
             //Regex for one Object Block
             Regex objectEntry = new Regex(

@@ -1,3 +1,4 @@
+﻿using LibSWBF2.MSH.Types;
 
 namespace LibSWBF2.MSH.Chunks {
     /// <summary>
@@ -15,10 +16,18 @@ namespace LibSWBF2.MSH.Chunks {
         public float[] CameraData { get; private set; }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CAMR"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public CAMR(MSH owner) : base(owner) {
             ChunkName = "CAMR";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CAMR"/> class.
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public CAMR(BaseChunk from) : base(from) {
             while (!EndOfData) {
                 BaseChunk nextChunk = ReadChunk();
@@ -55,6 +64,10 @@ namespace LibSWBF2.MSH.Chunks {
             return result;
         }
 
+        /// <summary>
+        /// Writes the complete data stream new from scratch.
+        /// Every Chunk inheriting from this must override this function
+        /// </summary>
         public override void WriteData() {
             base.WriteData();
 

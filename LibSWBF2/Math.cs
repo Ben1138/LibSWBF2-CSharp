@@ -1,4 +1,7 @@
 ﻿namespace LibSWBF2 {
+    /// <summary>
+    /// Contains some Clamp functions
+    /// </summary>
     public static class Math {
         /// <summary>
         /// Clamps a given value between min and max

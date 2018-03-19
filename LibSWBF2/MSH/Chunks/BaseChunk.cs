@@ -13,25 +13,43 @@ namespace LibSWBF2.MSH.Chunks {
     public class BaseChunk {
         private static readonly string ValidChunkRegEx = "[A-Z]{1}[A-Z0-9]{3}";
 
+        /// <summary>
+        /// the MSH this Chunk belongs to
+        /// </summary>
         [Browsable(false)]
         public MSH Owner { get; private set; }
+
+        /// <summary>
+        /// Name of the Chunk. This should always be 4 uppercase Letters (numbers are somewhat allowed too)
+        /// </summary>
         [Browsable(false)]
         public string ChunkName { get; protected set; }
+
+        /// <summary>
+        /// The actual raw data of this chunk (byte stream). This cannot be modified manually! Use <see cref="WriteData" /> instead
+        /// </summary>
         [Browsable(false)]
         public byte[] Data { get { return data.ToArray(); } }
         private List<byte> data = new List<byte>();
 
-        //public bool ValidChunk { get; private set; }
         protected bool EndOfData { get { return (position >= data.Count); } }
         protected int Position { get { return position; } }
         private int position = 0;
 
 
+        /// <summary>
+        /// Use this Constructor to create a new empty Chunk, given the MSH owner
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public BaseChunk(MSH owner) {
             ChunkName = "";
             Owner = owner;
         }
 
+        /// <summary>
+        /// Use this Constructor to create a new Chunk from a given <see cref="BaseChunk" />. This must be overriden by every subclass!
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public BaseChunk(BaseChunk from) {
             Log.Add("Process Chunk " + from.ChunkName, LogType.Info);
 
@@ -132,14 +150,15 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Flushes the data.
+        /// Flushes (clears) all data.
         /// </summary>
         public void FlushData() {
             data.Clear();
         }
 
         /// <summary>
-        /// Checks the integrity of the Chunk. Reports Error Messages if values are missing
+        /// Checks the integrity of the Chunk. Reports Error Messages if values are missing.
+        /// This Method should be overwritten by all subclasses.
         /// </summary>
         /// <returns></returns>
         public virtual CheckResult CheckIntegrity() {
@@ -160,7 +179,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads a float from chunk data
+        /// Reads a float from given data
         /// </summary>
         /// <returns>The float we just read</returns>
         /// <exception cref="EndOfDataException">Unexpected end of Data</exception>
@@ -176,7 +195,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads an int32 from chunk data
+        /// Reads an int32 from given data
         /// </summary>
         /// <returns></returns>
         /// <exception cref="EndOfDataException">Unexpected end of Data!</exception>
@@ -192,7 +211,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads an int16 from chunk data
+        /// Reads an int16 from given data
         /// </summary>
         /// <returns></returns>
         /// <exception cref="EndOfDataException">Unexpected end of Data!</exception>
@@ -208,7 +227,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads an unsigned int16 from chunk data
+        /// Reads an unsigned int16 from given data
         /// </summary>
         /// <returns></returns>
         /// <exception cref="EndOfDataException">Unexpected end of Data!</exception>
@@ -223,6 +242,9 @@ namespace LibSWBF2.MSH.Chunks {
             return BitConverter.ToUInt16(buffer, 0);
         }
 
+        /// <summary>
+        /// Reads a vertex index from given data
+        /// </summary>
         public VertexIndex ReadVertexIndex() {
             short s = ReadInt16();
 
@@ -243,16 +265,14 @@ namespace LibSWBF2.MSH.Chunks {
             // result 1000000000000000   = -32768
             short polyBit = (short)(s & 0x8000);
 
-            VertexIndex vertInd = new VertexIndex();
-
-            vertInd.index = indexValue;
-            vertInd.polyBoundary = (polyBit != 0);
-
-            return vertInd;
+            return new VertexIndex() {
+                index = indexValue,
+                polyBoundary = (polyBit != 0)
+            };
         }
 
         /// <summary>
-        /// Reads a Vector2 from chunk data
+        /// Reads a Vector2 from given data
         /// </summary>
         /// <returns></returns>
         public Vector2 ReadVector2() {
@@ -263,7 +283,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads a Vector3 from chunk data
+        /// Reads a Vector3 from given data
         /// </summary>
         /// <returns></returns>
         public Vector3 ReadVector3() {
@@ -275,7 +295,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads a Vector4 from chunk data
+        /// Reads a Vector4 from given data
         /// </summary>
         /// <returns></returns>
         public Vector4 ReadVector4() {
@@ -301,7 +321,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads the string.
+        /// Reads a string from given data
         /// </summary>
         /// <param name="length">The length.</param>
         /// <returns></returns>
@@ -337,7 +357,7 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Reads the chunk.
+        /// Reads a chunk from given data
         /// </summary>
         /// <returns></returns>
         /// <exception cref="EndOfStreamException">Unexpected end of Data!</exception>
@@ -360,27 +380,49 @@ namespace LibSWBF2.MSH.Chunks {
             return newChunk;
         }
 
+        /// <summary>
+        /// Writes a float into the data stream
+        /// </summary>
+        /// <param name="value">The float to write</param>
         public void WriteFloat(float value) {
             data.AddRange(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Writes an int32 into the data stream
+        /// </summary>
+        /// <param name="value">The int32 to write</param>
         public void WriteInt32(int value) {
             data.AddRange(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Writes an int16 into the data stream
+        /// </summary>
+        /// <param name="value">The int16 to write</param>
         public void WriteInt16(short value) {
             data.AddRange(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Writes an unsigned int16 into the data stream
+        /// </summary>
+        /// <param name="value">The unsigned int16 to write</param>
         public void WriteUnsignedInt16(ushort value) {
             data.AddRange(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Writes a string into the data stream. Every string is a chunk on its own.
+        /// Therefore, you need to specify a header name (e.g. NAME)
+        /// </summary>
+        /// <param name="header">Header Name</param>
+        /// <param name="value">The string to write</param>
         public void WriteString(string header, string value) {
             //write chunk Header (e.g. NAME)
             WriteHeader(header);
 
-            //number of bytes that follow (string length + zero)
+            //number of bytes that follow (string length + zero for null termination)
             WriteInt32(value.Length + 1);
 
             //write string
@@ -391,17 +433,29 @@ namespace LibSWBF2.MSH.Chunks {
             data.Add(0);
         }
 
+        /// <summary>
+        /// Writes a Vector2 into the data stream
+        /// </summary>
+        /// <param name="vector">The Vector2 to write</param>
         public void WriteVector2(Vector2 vector) {
             WriteFloat(vector.X);
             WriteFloat(vector.Y);
         }
 
+        /// <summary>
+        /// Writes a Vector3 into the data stream
+        /// </summary>
+        /// <param name="vector">The Vector3 to write</param>
         public void WriteVector3(Vector3 vector) {
             WriteFloat(vector.X);
             WriteFloat(vector.Y);
             WriteFloat(vector.Z);
         }
 
+        /// <summary>
+        /// Writes a Vector4 into the data stream
+        /// </summary>
+        /// <param name="vector">The Vector4 to write</param>
         public void WriteVector4(Vector4 vector) {
             WriteFloat(vector.X);
             WriteFloat(vector.Y);
@@ -409,6 +463,10 @@ namespace LibSWBF2.MSH.Chunks {
             WriteFloat(vector.W);
         }
 
+        /// <summary>
+        /// Writes a Color into the data stream
+        /// </summary>
+        /// <param name="color">The Color to write</param>
         public void WriteColor(Color color) {
             WriteFloat(color.R);
             WriteFloat(color.G);
@@ -416,6 +474,10 @@ namespace LibSWBF2.MSH.Chunks {
             WriteFloat(color.A);
         }
 
+        /// <summary>
+        /// Writes a Vertex Index into the data stream
+        /// </summary>
+        /// <param name="vertexIndex">The Vertex Index to write</param>
         public void WriteVertexIndex(VertexIndex vertexIndex) {
             short value = vertexIndex.index;
 
@@ -431,21 +493,44 @@ namespace LibSWBF2.MSH.Chunks {
             data.AddRange(BitConverter.GetBytes(value));
         }
 
+        /// <summary>
+        /// Writes a Header into the data stream
+        /// </summary>
+        /// <param name="header">The Header to write</param>
+        /// <exception cref="InvalidChunkException">Thrown if given Header Name is invalid</exception>
         public void WriteHeader(string header) {
+            if (!Regex.Match(header, ValidChunkRegEx).Success) {
+                Log.Add(header + " is not a valid Header Name!", LogType.Error);
+                throw new InvalidChunkException(header + " is not a valid Header Name!");
+            }
+
             //write chunk Header (e.g. NAME)
+            //since encoding is always ascii, we just can force a cast here
             for (int i = 0; i < header.Length; i++)
                 data.Add((byte)header[i]);
         }
 
+        /// <summary>
+        /// Writes the complete data stream new from scratch.
+        /// Every Chunk inheriting from this must override this function
+        /// </summary>
         public virtual void WriteData() {
+            //clear all data
             FlushData();
 
+            //every chunk starts with a header name (4 bytes)
             WriteHeader(ChunkName);
 
-            //write length of chunk, temporarily zero
+            //the second 4 bytes determine the length of the chunk (number of bytes that follow)
             WriteInt32(0);
+
+            //after that, all the chunk data follows. Since Base Chunk doesn't have any content, chunk length is zero by default
         }
 
+        /// <summary>
+        /// Writes a given Chunk into the data stream
+        /// </summary>
+        /// <param name="chunk">The chunk to write</param>
         public void WriteChunk(BaseChunk chunk) {
             if (chunk == null)
                 return;
@@ -457,6 +542,10 @@ namespace LibSWBF2.MSH.Chunks {
             chunk.FlushData();
         }
 
+        /// <summary>
+        /// Refreshes the Chunk Length. This should be called at the end of every WriteData() override
+        /// This overrides the second 4 bytes, which determine the length of the chunk (as int32).
+        /// </summary>
         public void WriteChunkLength() {
             byte[] buffer = BitConverter.GetBytes(data.Count - 8);
 

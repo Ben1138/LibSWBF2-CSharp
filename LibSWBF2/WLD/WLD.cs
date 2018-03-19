@@ -17,8 +17,8 @@ namespace LibSWBF2.WLD {
         /// <summary>
         /// Loads a .wld File
         /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns></returns>
+        /// <param name="path">The path to the .wld file</param>
+        /// <returns>A new WLD instance</returns>
         /// <exception cref="ArgumentException">Path given is not valid</exception>
         /// <exception cref="EndOfDataException">Unexpected end of Data</exception>
         /// <exception cref="FileNotFoundException">File could not be found</exception>

@@ -26,10 +26,18 @@ namespace LibSWBF2.MSH.Chunks {
         public BBOX BoundingBox { get; set; }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SINF"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public SINF(MSH owner) : base(owner) {
             ChunkName = "SINF";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SINF"/> class.
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public SINF(BaseChunk from) : base(from) {
             while (!EndOfData) {
                 BaseChunk nextChunk = ReadChunk();
@@ -48,6 +56,10 @@ namespace LibSWBF2.MSH.Chunks {
             }
         }
 
+        /// <summary>
+        /// Writes the complete data stream new from scratch.
+        /// Every Chunk inheriting from this must override this function
+        /// </summary>
         public override void WriteData() {
             base.WriteData();
 

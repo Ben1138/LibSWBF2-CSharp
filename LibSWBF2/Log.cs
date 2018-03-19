@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 
 namespace LibSWBF2 {
     public enum LogType {

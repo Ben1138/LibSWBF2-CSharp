@@ -16,6 +16,10 @@ namespace LibSWBF2.MSH.Chunks {
         private List<ushort> vertexIndices = new List<ushort>();
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="STRP"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public STRP(MSH owner) : base(owner) {
             ChunkName = "STRP";
         }

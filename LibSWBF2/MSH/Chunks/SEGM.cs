@@ -5,7 +5,7 @@ using LibSWBF2.MSH.Types;
 
 namespace LibSWBF2.MSH.Chunks {
     /// <summary>
-    /// Mesh Segment Containing all the necessary Geometry Information like Vertices, Normals, UVs
+    /// Mesh Segment Containing all the necessary Geometry Information like Vertices, Normals and UVs
     /// </summary>
     public class SEGM : BaseChunk {
         /// <summary>
@@ -21,18 +21,27 @@ namespace LibSWBF2.MSH.Chunks {
         private List<Vertex> vertices = new List<Vertex>();
 
         /// <summary>
-        /// List of Polygons created from Vertices. Each entry contains the index to a Vertex
+        /// All Polygons in this Mesh Segment (build up from the vertices in this Mesh Segments)
         /// </summary>
         public Polygon[] Polygons { get { return polygons.ToArray(); } }
-        public List<Polygon> polygons = new List<Polygon>();
+        private List<Polygon> polygons = new List<Polygon>();
 
+        //some meshes do not contain any UV information.
         private bool hasUVs = false;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SEGM"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public SEGM(MSH owner) : base(owner) {
             ChunkName = "SEGM";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SEGM"/> class.
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public SEGM(BaseChunk from) : base(from) {
             List<Vector3> verts = new List<Vector3>();
             List<Vector3> normals = new List<Vector3>();
@@ -114,6 +123,10 @@ namespace LibSWBF2.MSH.Chunks {
                 polygons.Add(currentPoly);
         }
 
+        /// <summary>
+        /// Writes the complete data stream new from scratch.
+        /// Every Chunk inheriting from this must override this function
+        /// </summary>
         public override void WriteData() {
             base.WriteData();
 
@@ -123,7 +136,7 @@ namespace LibSWBF2.MSH.Chunks {
 
             WriteHeader("POSL");
             WriteInt32(vertices.Count * 12 + 4);    //float 4 bytes * vector3, 3 floats  =  12 bytes per Position
-            WriteInt32(vertices.Count);         //first integer indicates number of vertices that follow
+            WriteInt32(vertices.Count);             //first integer indicates number of vertices that follow
             foreach (Vertex vert in vertices)
                 WriteVector3(vert.position);
 
@@ -167,7 +180,6 @@ namespace LibSWBF2.MSH.Chunks {
             foreach (VertexIndex vertInd in vertexBuffer) {
                 WriteVertexIndex(vertInd);
             }
-            
 
             WriteChunkLength();
         }

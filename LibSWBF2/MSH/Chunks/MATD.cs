@@ -31,7 +31,7 @@ namespace LibSWBF2.MSH.Chunks {
         public Color Specular { get; set; }
 
         /// <summary>
-        /// The Sharpness of the Specular highlights
+        /// The Sharpness of the Specular highlights (Range 0 to 100 allowed)
         /// </summary>
         public float SpecularSharpness {
             get { return specularSharpness; }
@@ -67,11 +67,19 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MATD"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public MATD(MSH owner) : base(owner) {
             ChunkName = "MATD";
             Name = "New Material";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MATD"/> class.
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public MATD(BaseChunk from) : base(from) {
             while (!EndOfData) {
                 BaseChunk nextChunk = ReadChunk();
@@ -104,6 +112,10 @@ namespace LibSWBF2.MSH.Chunks {
             }
         }
 
+        /// <summary>
+        /// Writes the complete data stream new from scratch.
+        /// Every Chunk inheriting from this must override this function
+        /// </summary>
         public override void WriteData() {
             base.WriteData();
 
