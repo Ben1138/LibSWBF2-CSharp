@@ -145,21 +145,17 @@ namespace LibSWBF2.MSH.Chunks {
             WriteHeader("STRP");
 
             //lets build up an index buffer from our stored polygons
-            List<short> vertexBuffer = new List<short>();
+            List<VertexIndex> vertexBuffer = new List<VertexIndex>();
 
             foreach (Polygon poly in polygons) {
                 for (int i = 0; i < poly.VertexIndices.Count; i++) {
-                    short vertInd = poly.VertexIndices[i];
+                    VertexIndex vertInd = new VertexIndex {
+                        index = poly.VertexIndices[i]
+                    };
 
                     //the first two indices are always tagged as begin/end
-                    if (i == 0 || i == 1) {
-                        //if index is a polygon boundary (begin/end), set the highest bit, e.g.:
-                        // (using logical OR)
-                        // value  0000000000000111   = 7
-                        // mask   1000000000000000   = 0x8000 in hex
-                        // result 1000000000000111   = desired index value (-32761 in dec)
-                        vertInd = (short)(vertInd ^ 0x8000);
-                    }
+                    if (i == 0 || i == 1)
+                        vertInd.polyBoundary = true;
 
                     vertexBuffer.Add(vertInd);
                 }
@@ -168,8 +164,8 @@ namespace LibSWBF2.MSH.Chunks {
             WriteInt32(vertexBuffer.Count * 2 + 4);
             WriteInt32(vertexBuffer.Count);
 
-            foreach (short vertInd in vertexBuffer) {
-                WriteInt16(vertInd);
+            foreach (VertexIndex vertInd in vertexBuffer) {
+                WriteVertexIndex(vertInd);
             }
             
 
