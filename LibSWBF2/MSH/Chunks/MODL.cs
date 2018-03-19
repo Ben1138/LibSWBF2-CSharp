@@ -1,49 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using LibSWBF2.Types;
 using LibSWBF2.TypeConverters;
 using LibSWBF2.MSH.Types;
 
 namespace LibSWBF2.MSH.Chunks {
-    /// <summary>
-    /// Type of the Model. Most common Types are Static and Shadow. Null indicates no Geometry!
-    /// </summary>
-    public enum MTYP {
-        Null = 0,
-        Skin = 1,
-        Envelope = 3,
-        Static = 4,
-        Shadow = 6
-    }
-
-    public enum ModelTag {
-        Common, Collision, VehicleCollision, TerrainCut, Lowrez, Miscellaneous
-    }
-
-    /// <summary>
-    /// Unknown FLag
-    /// </summary>
-    [TypeConverter(typeof(FlagConverter))]
-    public struct ModelFlag {
-        public bool IsSet { get; set; }
-        public int Value {
-            get { return _value; }
-            set { _value = Math.Clamp(value, 0, 999999); }
-        }
-        private int _value;
-
-
-        public ModelFlag(bool isSet, int value) {
-            IsSet = isSet;
-            _value = value;
-        }
-
-        public override string ToString() {
-            return IsSet + "-" + Value;
-        }
-    }
-
     /// <summary>
     /// Representing a Model
     /// </summary>
@@ -65,7 +26,7 @@ namespace LibSWBF2.MSH.Chunks {
         public MTYP Type { get; set; }
 
         /// <summary>
-        /// Some Models are tagged as Collision or Terrain Cut. Models can be tagged by changing their Names respectively
+        /// Some Models are tagged as Collision or Terrain Cut. Since Models Tags are deterimed by their Names respectively, they cannot be set.
         /// </summary>
         public ModelTag Tag {
             get {
@@ -140,6 +101,10 @@ namespace LibSWBF2.MSH.Chunks {
         public GEOM Geometry { get; set; } = null;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MODL"/> class.
+        /// </summary>
+        /// <param name="owner">The MSH this chunk should belong to</param>
         public MODL(MSH owner) : base(owner) {
             ChunkName = "MODL";
             Name = "New Model";
@@ -151,6 +116,10 @@ namespace LibSWBF2.MSH.Chunks {
                 Index = 0;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MODL"/> class.
+        /// </summary>
+        /// <param name="from">The <see cref="BaseChunk" /> to use for creating this Chunk. The given data will be interpreted respectively.</param>
         public MODL(BaseChunk from) : base(from) {
             while (!EndOfData) {
                 BaseChunk nextChunk = ReadChunk();
@@ -184,6 +153,10 @@ namespace LibSWBF2.MSH.Chunks {
             }
         }
 
+        /// <summary>
+        /// Writes the complete data stream new from scratch.
+        /// Every Chunk inheriting from this must override this function
+        /// </summary>
         public override void WriteData() {
             base.WriteData();
 
@@ -219,12 +192,16 @@ namespace LibSWBF2.MSH.Chunks {
         }
 
         /// <summary>
-        /// Set real Reference to Parent from Model Name
+        /// Since in MSH References are saved by name (string) or list index (int32), we have to assign all necessary references manually.
+        /// This should be overriden by any subclass which holds references to other Chunks (e.g. to every Segment one Material is assigned)
         /// </summary>
-        /// <param name="models">List of all Models to search from</param>
-        public void ApplyReferences(MODL[] models, MATD[] materials) {
+        /// <exception cref="NullReferenceException">No owner (MSH) set in Chunk " + ChunkName + "!</exception>
+        public override void ApplyReferences() {
+            if (Owner == null)
+                throw new NullReferenceException("No owner (MSH) set in Chunk " + ChunkName + "!");
+
             if (!string.IsNullOrEmpty(parentName)) {
-                foreach (MODL mdl in models) {
+                foreach (MODL mdl in Owner.Models) {
                     if (mdl.Name.Equals(parentName)) {
                         Parent = mdl;
                         break;
@@ -233,7 +210,7 @@ namespace LibSWBF2.MSH.Chunks {
             }
 
             if (Geometry != null) {
-                Geometry.ApplyReferences(materials);
+                Geometry.ApplyReferences();
             }
         }
 

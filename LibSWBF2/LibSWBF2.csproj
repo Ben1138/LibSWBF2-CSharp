@@ -65,6 +65,9 @@
     <Compile Include="MSH\Chunks\SINF.cs" />
     <Compile Include="MSH\Chunks\STRP.cs" />
     <Compile Include="MSH\Types\CheckResult.cs" />
+    <Compile Include="MSH\Types\ModelFlag.cs" />
+    <Compile Include="MSH\Types\ModelTag.cs" />
+    <Compile Include="MSH\Types\MTYP.cs" />
     <Compile Include="Types\ChunkStream.cs" />
     <Compile Include="MSH\Types\Polygon.cs" />
     <Compile Include="MSH\Types\Vertex.cs" />
