@@ -198,16 +198,12 @@ namespace LibSWBF2.MSH.Chunks {
                 result.AddError("Material of Mesh Segment is set to NULL!");
             }
 
-            try {
-                result = CheckResult.Merge(result, CheckResult.Merge(vertices.ToArray()));
+            if (vertices.Count == 0) {
+                result.AddError("No vertices set in Mesh Segment!");
             }
-            catch (ArgumentNullException ex) {
-                result.AddError(ex.Message);
-                return result;
-            }
-            catch (Exception ex) {
-                result.AddError("An Unknown Error occured! " + ex.Message);
-                return result;
+
+            if (polygons.Count == 0) {
+                result.AddError("No polygons set in Mesh Segment!");
             }
 
             return result;
