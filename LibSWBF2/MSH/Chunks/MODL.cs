@@ -45,7 +45,7 @@ namespace LibSWBF2.MSH.Chunks {
                     return ModelTag.Lowrez;
                 }
 
-                if (Name.ToLower().Contains("p_")) {
+                if (Name.ToLower().StartsWith("p_")) {
                     return ModelTag.Miscellaneous;
                 }
 
