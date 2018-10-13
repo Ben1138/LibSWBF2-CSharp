@@ -1,6 +1,8 @@
+# [DEPRECATED] 
+[C++ Implementation](https://github.com/Ben1138/LibSWBF2)<br />
+
 # LibSWBF2
 C# Library for reading files from Star Wars Battlefront 2 (2005) Mod Tools.<br />
-In the long term, this should be replaced by the [C++ Implementation](https://github.com/Ben1138/LibSWBF2)<br />
 
 # MSH Files
 1. Add using directive ```using LibSWBF2.MSH;```
